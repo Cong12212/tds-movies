@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+echo ".env" >> .gitignore
 
 # production
 /build
