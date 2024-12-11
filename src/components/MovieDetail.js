@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { movieService } from '../service/movieService';
+import { getImageUrl, formatYear, formatDate } from '../utils/helpers';
+import '../css/MovieDetail.scss';
+import '../css/Loading.scss';
 
 const MovieDetail = () => {
     const { id } = useParams();
@@ -11,13 +15,11 @@ const MovieDetail = () => {
         const fetchMovieDetail = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(
-                    `https://api.themoviedb.org/3/movie/${id}?api_key=YOUR_API_KEY`
-                );
-                const data = await response.json();
+                const data = await movieService.getMovieDetails(id);
                 setMovie(data);
             } catch (err) {
                 setError('Failed to fetch movie details');
+                console.error('Error fetching movie details:', err);
             } finally {
                 setLoading(false);
             }
@@ -26,94 +28,97 @@ const MovieDetail = () => {
         fetchMovieDetail();
     }, [id]);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div style={{ color: 'red' }}>{error}</div>;
+    if (loading) return (
+        <div className="loading-bar">
+            <div className="bar"></div>
+        </div>
+    );
+
+    if (error) return (
+        <div className="text-red-500 text-center p-4">
+            {error}
+        </div>
+    );
+
     if (!movie) return null;
 
+    const containerStyle = {
+        '--poster-image': `url(${getImageUrl(movie.poster_path)})`
+    };
+
     return (
-        <div style={{
-            padding: '20px',
-            maxWidth: '1200px',
-            margin: '0 auto'
-        }}>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '20px',
-                '@media (min-width: 768px)': {
-                    flexDirection: 'row',
-                }
-            }}>
-                <div style={{ flex: '0 0 300px' }}>
+        <div className="movie-detail-container" style={containerStyle}>
+            <div className="flex flex-col md:flex-row gap-5">
+                {/* Poster Section */}
+                <div className="poster-section">
                     <img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        src={getImageUrl(movie.poster_path)}
                         alt={movie.title}
-                        style={{
-                            width: '100%',
-                            borderRadius: '8px',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                        }}
+                        className="rounded-lg shadow-md"
                     />
                 </div>
-                <div style={{ flex: 1, padding: '20px' }}>
-                    <h1 style={{ fontSize: '2rem', marginBottom: '10px' }}>{movie.title}</h1>
 
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '20px'
-                    }}>
-                        <span style={{ color: '#ffd700', marginRight: '5px' }}>★</span>
+                {/* Content Section */}
+                <div className="content-section">
+                    {/* Title */}
+                    <h1>{movie.title}</h1>
+
+                    {/* Rating and Year */}
+                    <div className="rating">
+                        <span className="star-icon">★</span>
                         <span>{movie.vote_average.toFixed(1)}</span>
-                        <span style={{ margin: '0 10px' }}>•</span>
-                        <span>{new Date(movie.release_date).getFullYear()}</span>
+                        <span className="mx-2">•</span>
+                        <span>{formatYear(movie.release_date)}</span>
                     </div>
 
-                    <div style={{ marginBottom: '20px' }}>
+                    {/* Genres */}
+                    <div className="genres">
                         {movie.genres.map(genre => (
                             <span
                                 key={genre.id}
-                                style={{
-                                    display: 'inline-block',
-                                    backgroundColor: '#f0f0f0',
-                                    padding: '5px 10px',
-                                    borderRadius: '15px',
-                                    marginRight: '10px',
-                                    marginBottom: '10px',
-                                    fontSize: '0.9rem'
-                                }}
+                                className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm mr-2 mb-2"
                             >
                                 {genre.name}
                             </span>
                         ))}
                     </div>
 
-                    <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>Overview</h2>
-                    <p style={{
-                        color: '#666',
-                        lineHeight: '1.6',
-                        marginBottom: '20px'
-                    }}>
-                        {movie.overview}
-                    </p>
+                    {/* Overview */}
+                    <div className="overview">
+                        <h2 className="text-2xl font-bold mb-2">Overview</h2>
+                        <p className="text--600 leading-relaxed">
+                            {movie.overview}
+                        </p>
+                    </div>
 
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '20px'
-                    }}>
+                    {/* Additional Details */}
+                    <div className="additional-details">
                         <div>
-                            <h3 style={{ fontWeight: 'bold' }}>Release Date</h3>
-                            <p>{new Date(movie.release_date).toLocaleDateString()}</p>
+                            <h3>Release Date:</h3>
                         </div>
-                        <div>
-                            <h3 style={{ fontWeight: 'bold' }}>Runtime</h3>
-                            <p>{movie.runtime} minutes</p>
-                        </div>
+                        <div> <p>{formatDate(movie.release_date)}</p></div>
+                        <div> <h3>Runtime:</h3></div>
+                        <div> <p>{movie.runtime} minutes</p></div>
+                        {movie.budget > 0 && (<>
+                            <div>
+                                <h3>Budget:</h3>
+                            </div>
+                            <div><p>${movie.budget.toLocaleString()}</p></div>
+                        </>
+                        )}
+                        {movie.revenue > 0 && (<>
+                            <div>
+                                <h3>Revenue:</h3>
+
+                            </div>
+                            <div><p>${movie.revenue.toLocaleString()}</p></div>
+                        </>
+                        )}
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
+
     );
 };
 

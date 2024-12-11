@@ -1,0 +1,119 @@
+.movie-detail-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 2rem;
+    color: #fff;
+
+    &::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-image: var(--poster-image);
+      filter: blur(8px);
+      transform: scale(1.1); // Tránh viền trắng khi blur
+      z-index: -2;
+    }
+  
+    &::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.8) 50%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+      z-index: -1;
+    }
+  
+  
+    .loading-bar {
+      width: 100%;
+      height: 4px;
+      background-color: #ddd;
+      position: relative;
+  
+      .bar {
+        width: 50%;
+        height: 100%;
+        background-color: #2196F3;
+      }
+    }
+  
+    .error-message {
+      color: #ef4444;
+      text-align: center;
+      padding: 1rem;
+    }
+  
+    .poster-section {
+      width: 100%;
+      max-width: 20rem;
+      flex-shrink: 0;
+  
+      img {
+        width: 100%;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  
+    .content-section {
+      flex-grow: 1;
+      padding: 2rem;
+    
+      h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+  
+      .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.25rem;
+  
+        .star-icon {
+          color: #f59e0b;
+          margin-right: 0.25rem;
+        }
+      }
+  
+      .genres span {
+        background-color: #ffffff;
+        border-radius: 9999px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: black;
+      }
+  
+      .overview {
+        margin-bottom: 1.25rem;
+        color: #fff;
+        
+      }
+  
+      .additional-details {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+  
+        h3 {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }

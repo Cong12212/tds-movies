@@ -1,0 +1,94 @@
+.AppBar-container {
+    display: flex; 
+    // background-image: url('../assets/background.jpg');
+    background-image: url('../assets/image.png');
+    background-size: cover;
+    background-position: center;
+    padding: 1rem;
+  
+  .content-wrapper {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  
+  .p-appbar {
+    color:white;
+    font-size:x-large;
+   font-weight: bold;
+  }
+  
+  .logo-link {
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+  
+    img {
+      height: 5rem;
+      font-weight: bold;
+    }
+  }
+
+.search-form-container {
+    width: 100%; 
+    max-width: 100rem; 
+    margin: 0 auto; 
+    position: relative;
+    display: flex;
+    justify-content: center; 
+  
+  
+  form {
+    width: 100%; 
+    max-width: 100rem; 
+    position: relative;
+  }
+  
+  input {
+    width: 100%; 
+    padding: 0.7rem 2rem;
+    font-size: 1.125rem;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    outline: none;
+    transition: all 0.2s;
+  
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(2, 66, 139, 0.5);
+    }
+  }
+  
+  button {
+    position: absolute;
+    right: 0rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s;
+    background: linear-gradient(to right,rgb(100, 226, 248),rgb(62, 62, 238));
+  
+    &:hover {
+        background: linear-gradient(to right,rgb(51, 224, 255),rgb(33, 33, 244));
+    }
+  }
+  
+    .loading-spinner {
+      margin-top: 1rem;
+  
+      .spinner {
+        animation: spin 1s linear infinite;
+        height: 1.25rem;
+        width: 1.25rem;
+        border-radius: 9999px;
+        border: 2px solid rgb(37 99 235);
+        border-top-color: transparent;
+      }
+    }
+  }
+}

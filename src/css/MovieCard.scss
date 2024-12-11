@@ -1,0 +1,40 @@
+.movie-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    padding: 0.5rem;
+    .movie-card__image {
+      width: 100%;
+      height: 18rem;
+      object-fit: cover;
+    }
+  
+    .movie-card__content {
+      .movie-card__title {
+        margin: 0;
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+  
+      .movie-card__year {
+        color: gray;
+        font-size: 0.875rem;
+      }
+  
+      .movie-card__rating {
+        display: flex;
+        align-items: center;
+  
+        .star-icon {
+          color: #f59e0b;
+        }
+  
+        .rating-value {
+          margin-left: 0.25rem;
+        }
+      }
+    }
+  }
+  
