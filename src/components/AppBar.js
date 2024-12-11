@@ -36,7 +36,7 @@ const AppBar = () => {
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
-                            placeholder="Search for a movie, tv show, person..."
+                            placeholder="Search for a movie, ..."
                             value={query}
                             onChange={handleSearch}
                         />
